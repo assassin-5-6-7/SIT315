@@ -26,7 +26,12 @@ void setup()
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
   pinMode(LED3, OUTPUT);
+  
+  pinMode(motion1, INPUT);
+  pinMode(motion2, INPUT);
   irrecv.enableIRIn();
+  
+  noInterrupts();
   
   PCICR |= B00000001;
   PCMSK0 |= B00111100; 
@@ -44,6 +49,8 @@ void setup()
   TIMSK1 = (1 << OCIE1A);
 
   sei();
+  
+  interrupts();
 	
 
 }
@@ -57,20 +64,20 @@ void loop()
 
 ISR(PCINT0_vect)
 {
-  A = digitalRead(motion1);
-  C = digitalRead(motion2);
+  A = PINB;
+  C = PINB;
 }
 
 
 void iiii()
 {
-  if(A == HIGH)
+  if(A == 4)
   {
     Serial.println("motion1 detected");
     digitalWrite(LED1,HIGH);
   }
   digitalWrite(LED1,LOW);
-  if(C == HIGH)
+  if(C == 8)
   {
     Serial.println("motion2 detected");
     digitalWrite(LED2,HIGH);
@@ -82,6 +89,7 @@ void iiii()
     {
       digitalWrite(LED3,HIGH);
       Serial.println("resived signal,LED on");
+      
     } 
     		
     irrecv.resume();
@@ -93,6 +101,9 @@ ISR(TIMER1_COMPA_vect)
 {
   iiii();
 }
+
+
+
 
 
 
