@@ -8,7 +8,7 @@
 using namespace std;
 
 #define N 1000
-#define THREAD_NUMBER 4
+#define THREAD_NUMBER 8
 
 //create three matrix, first two is the input and the thrid one is used for saving result
 int A[N][N];
@@ -52,7 +52,7 @@ int main()
 
     for (long i = 0; i < THREAD_NUMBER; i++)
     {
-        pthread_create(&threads[i], NULL, myTask, (void*)i);
+        pthread_create(&threads[i], NULL, mytask, (void*)i);
     }
     for (long i = 0; i < THREAD_NUMBER; i++)
     {
@@ -60,10 +60,10 @@ int main()
     }
 
     clock_t end = clock();
-    double total_time = (end - start)/CLOCKS_PER_SEC;
+    double total_time = (double)(end - start)/CLOCKS_PER_SEC;
 
     //create the file and write the result into the file
-    FILE *fp = fopen("result.txt","w");
+    FILE *fp = fopen("presult.txt","w");
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -76,7 +76,7 @@ int main()
     fclose(fp);
 
     printf("running time is: ");
-    printf("%lf",total_time);
+    printf("%f",total_time);
 
 
 }
