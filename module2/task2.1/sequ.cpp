@@ -25,8 +25,8 @@ int main()
     {
         for(int j = 0; j < N; j++)
         {
-            A[i][j] = rand();
-            B[i][j] = rand();
+            A[i][j] = rand()%10;
+            B[i][j] = rand()%10;
             C[i][j] = 0;
         }
     }
@@ -41,12 +41,12 @@ int main()
         {
             for(int k = 0; k < N; k++)
             {
-                C[i][k] += A[i][k] * B[j][k];
+                C[i][j] += A[i][k] * B[j][k];
             }
         }
     }
     clock_t end = clock();
-    double total_time = (double)(end - start);
+    double total_time = (end - start)/CLOCKS_PER_SEC;
 
     //create the file and write the result into the file
     FILE *fp = fopen("result.txt","w");
@@ -54,13 +54,15 @@ int main()
     {
         for (int j = 0; j < N; j++)
         {
-            fprintf(fp,"%d",C[i][j]);
+            fprintf(fp,"%d\t",C[i][j]);
         }
         fprintf(fp,"\n");
     }
-    fprintf("The total running time is: ",total_time);
+    //fprintf("The total running time is: ");
     fclose(fp);
 
+    printf("running time is: ");
+    printf("%lf",total_time);
 
 
 
